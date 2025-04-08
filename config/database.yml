@@ -1,0 +1,25 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 10).to_i %>
+  username: root
+  password: password
+  host: localhost
+
+development:
+  <<: *default
+  host: <%= ENV.fetch('DB_HOST') { '127.0.0.1' } %>
+  database: <%= ENV.fetch('DB_NAME_DEV') { 'minesweeper_dev' } %>
+  username: <%= ENV.fetch('DB_USERNAME') { 'root' } %>
+  password: <%= ENV.fetch('DB_PASSWORD') { 'password' } %>
+
+test:
+  <<: *default
+  host: <%= ENV.fetch('DB_HOST') { '127.0.0.1' } %>
+  database: <%= ENV.fetch('DB_NAME_DEV') { 'minesweeper_test' } %>
+  username: <%= ENV.fetch('DB_USERNAME') { 'root' } %>
+  password: <%= ENV.fetch('DB_PASSWORD') { 'password' } %>
+
+production:
+  <<: *default
+  url: <%= ENV['JAWSDB_URL'] %>
