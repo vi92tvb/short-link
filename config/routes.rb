@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   post 'encode', to: 'short_links#encode'
+  post 'decode', to: 'short_links#decode'
+  get '/:short_url', to: 'short_links#redirect'
 end
