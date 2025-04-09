@@ -10,14 +10,14 @@ default: &default
 development:
   <<: *default
   host: <%= ENV.fetch('DB_HOST') { '127.0.0.1' } %>
-  database: <%= ENV.fetch('DB_NAME_DEV') { 'minesweeper_dev' } %>
+  database: <%= ENV.fetch('DB_NAME_DEV') { 'shortlink_test' } %>
   username: <%= ENV.fetch('DB_USERNAME') { 'root' } %>
   password: <%= ENV.fetch('DB_PASSWORD') { 'password' } %>
 
 test:
   <<: *default
   host: <%= ENV.fetch('DB_HOST') { '127.0.0.1' } %>
-  database: <%= ENV.fetch('DB_NAME_DEV') { 'minesweeper_test' } %>
+  database: <%= ENV.fetch('DB_NAME_DEV') { 'shortlink_prod' } %>
   username: <%= ENV.fetch('DB_USERNAME') { 'root' } %>
   password: <%= ENV.fetch('DB_PASSWORD') { 'password' } %>
 
