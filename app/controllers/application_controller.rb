@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   private
 
   def render_unprocessable_entity(exception)
-    render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
+    render json: { error: exception.record.errors.full_messages[0] }, status: :unprocessable_entity
   end
 
   def render_invalid_domain(exception)
