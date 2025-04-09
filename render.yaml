@@ -1,0 +1,22 @@
+services:
+- type: web
+  name: shortlink
+  runtime: ruby
+  repo: https://github.com/vi92tvb/short-link
+  plan: free
+  envVars:
+  - key: DOMAIN_URL
+    sync: false
+  - key: APP_DOMAIN
+    sync: false
+  - key: RAILS_ENV
+    sync: false
+  - key: DATABASE_URL
+    sync: false
+  - key: RAILS_MASTER_KEY
+    sync: false
+  region: singapore
+  buildCommand: bundle install && bundle exec rake assets:precompile
+  startCommand: bundle exec rails server -b 0.0.0.0 -p 3000
+  migrateCommand: bundle exec rails db:migrate
+version: "1"
