@@ -85,7 +85,7 @@ Rails.application.configure do
   #   "example.com",     # Allow requests from example.com
   #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
   # ]
-  config.hosts << ENV.fetch("APP_DOMAIN") { "shortlink-0bo8.onrender.com" }
+  config.hosts << ENV.fetch("DOMAIN_URL") { "localhost:3000" }
 
   #
   # Skip DNS rebinding protection for the default health check endpoint.

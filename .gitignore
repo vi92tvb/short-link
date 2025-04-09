@@ -37,3 +37,5 @@
 .AppleDouble
 .LSOverride
 /db_volume/*
+
+*.env
