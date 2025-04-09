@@ -16,13 +16,14 @@ services:
       - web.env
     depends_on:
       - db
+
   db:
-    image: mysql:8.0
+    image: postgres:15.2
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: shortlink_dev
-    ports:
-      - "3306:3306"
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
     volumes:
-      - ./db_volume/mysql_data:/var/lib/mysql
-      - ./db_volume/mysql_config/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./db_volume/data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'

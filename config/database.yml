@@ -1,6 +1,7 @@
 default: &default
-  adapter: mysql2
-  encoding: utf8mb4
+  adapter: postgresql
+  charset: utf8
+  encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS", 10).to_i %>
   username: root
   password: password
@@ -22,4 +23,4 @@ test:
 
 production:
   <<: *default
-  url: <%= ENV['JAWSDB_URL'] %>
+  url: <%= ENV['DATABASE_URL'] %>

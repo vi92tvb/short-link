@@ -29,20 +29,31 @@ RSpec.describe ShortLinksController, type: :controller do
   describe 'POST #decode' do
     let(:url) { 'https://example.com/abcdef' }
     let(:short_code) { 'abc123' }
+    let(:app_domain) { 'http://localhost:3000' }
+    let(:full_url) { "#{app_domain}/#{short_code}" }
 
     before do
       ShortLink.create!(origin_url: url, code: short_code)
+      allow(ENV).to receive(:[]).with('APP_DOMAIN').and_return(app_domain)
     end
 
-    it 'returns the original URL when given a valid short code' do
-      post :decode, params: { short_link: { code: short_code } }
+    it 'returns the original URL when given a valid full URL' do
+      post :decode, params: { short_link: { url: full_url } }
 
       expect(response).to have_http_status(:success)
       expect(JSON.parse(response.body)['url']).to eq(url)
     end
 
+    it 'returns an error when given a URL with an invalid domain' do
+      post :decode, params: { short_link: { url: url } }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(JSON.parse(response.body)['error']).to eq('Invalid domain')
+    end
+
     it 'returns an error when given an invalid short code' do
-      post :decode, params: { short_link: { code: 'invalidcode' } }
+      invalid_code_url = "#{app_domain}/invalidcode"
+      post :decode, params: { short_link: { url: invalid_code_url } }
 
       expect(response).to have_http_status(:not_found)
       expect(JSON.parse(response.body)['error']).to eq('URL not found')

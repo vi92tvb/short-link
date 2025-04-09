@@ -70,5 +70,5 @@ group :test do
 end
 
 gem 'rack-cors'
-gem 'mysql2', '~> 0.5'
+gem "pg", "~> 1.1"
 gem 'base62'
