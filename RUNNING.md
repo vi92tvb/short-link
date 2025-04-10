@@ -1,7 +1,5 @@
-# How to Shortlink Application
-
+# Prerequisites
 ---
-## Prerequisites
 Before running the Rails application with Docker, ensure you have the following installed:
 
 - **Docker**: Install Docker from [here](https://www.docker.com/get-started).
@@ -21,10 +19,9 @@ docker-compose --version
 ```
 If Docker Compose is not installed, download and install it from [Docker Compose installation guide](https://docs.docker.com/compose/install/).
 
+
+# Setting up
 ---
-
-# Setting Up the Project with Docker
-
 ### 1. Clone the Repository
 
 If you haven't cloned the repository yet, do so with:
@@ -57,16 +54,18 @@ DB_HOST=
 DB_PORT=
 DB_NAME_DEV=
 DB_NAME_TEST=
-DB_NAME_PROD=
 DB_USERNAME=
 DB_PASSWORD=
 APP_DOMAIN=
+HOST_DOMAIN=
+MAX_SHORTLINK_RETRIES=
+
+# Only for production database
+DATABASE_URL=
 ```
 
+# Running the application
 ---
-
-# Running the Application
-
 ### 1. Start the Docker Containers
 
 To start the app, run the following command:
@@ -85,10 +84,8 @@ If you want to run the test suite to verify everything is working, you can run:
 docker-compose run web rspec
 ```
 
----
-
 # Troubleshooting
-
+---
 ### Common Issues
 
 - **Missing Dependencies**: If you encounter missing dependencies, run:
@@ -108,3 +105,24 @@ docker-compose run web rspec
   docker-compose up
   ```
   By default, the application will be exposed on `localhost:3000`.
+
+# Test
+---
+Below are the common ways to run RSpec tests inside the container.
+
+- Run all test suites
+```bash
+docker-compose run --rm web rspec
+```
+
+- Run a specific test file
+```bash
+docker-compose run --rm web rspec spec/requests/errors_controller_spec.rb
+```
+
+- Or we can open a bash session inside the container and run tests manually
+```bash
+docker-compose run --rm web bash
+# Inside the container, we run:
+rspec
+```
