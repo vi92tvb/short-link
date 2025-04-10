@@ -1,6 +1,7 @@
 class ShortLinkGeneratorService < ApplicationService
   def initialize(url)
     @url = url
+    @max_retries = ENV.fetch("MAX_SHORTLINK_RETRIES", 3).to_i
   end
 
   def call
@@ -19,10 +20,13 @@ class ShortLinkGeneratorService < ApplicationService
     hash.base62_encode
   end
 
-  def create_short_link(short_code)
+  def create_short_link(short_code, attempts = @max_retries)
     ShortLink.create!(origin_url: @url, code: short_code)
-  rescue => e
-    Rails.logger.error("Failed to create short link: #{e.message}")
-    raise
+  rescue ActiveRecord::RecordNotUnique # Add retries if not unique
+    raise if attempts <= 0
+
+    Rails.logger.warn("Short code collision, retrying... (attempts left: #{attempts - 1})")
+    new_code = build_short_code(CounterManagerService.call)
+    create_short_link(new_code, attempts - 1)
   end
 end

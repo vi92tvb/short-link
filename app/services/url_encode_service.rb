@@ -6,6 +6,8 @@ class UrlEncodeService < ApplicationService
   end
 
   def call
-    ShortLinkGeneratorService.call(@url)
+    resource = ShortLink.find_by(origin_url: @url)
+
+    resource ? resource.code : ShortLinkGeneratorService.call(@url)
   end
 end

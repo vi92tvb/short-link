@@ -2,9 +2,9 @@ class UrlDecodeService < ApplicationService
   class InvalidDomainError < StandardError; end
   class UrlNotFoundError < StandardError; end
 
-  def initialize(url, domain: ENV["APP_DOMAIN"] || "http://localhost:3000")
+  def initialize(url)
     @url = url
-    @domain = domain
+    @domain = ENV["APP_DOMAIN"] || "http://localhost:3000"
     @short_link = nil
   end
 
